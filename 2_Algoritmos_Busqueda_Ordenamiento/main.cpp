@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
 
 	prueba = original1;
 	sorts.ordenaSeleccion(prueba);
+	
 
 
 	cout << "\n" <<"1.- esperada " << resp1 << "\n programa " << arrayToString(prueba) << "\n";
