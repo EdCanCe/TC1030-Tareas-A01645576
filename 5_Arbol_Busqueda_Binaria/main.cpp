@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
 	bst.add(18);
 
 	ans = "[10 8 12 110 18 112]\n[8 10 12 18 110 112]\n[8 18 112 110 12 10]\n[10 8 12 110 18 112]";
+	//cout<<"\033[32m\n"<<bst.visit()<<"\n\033[39m\n";
 	cout << "\n" <<"3.- esperada " << ans << "\n programa " << bst.visit() << "\n";
 	cout <<	(!ans.compare(bst.visit()) ? "success\n" : "fail\n");
 
