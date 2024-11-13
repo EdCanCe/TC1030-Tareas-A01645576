@@ -1,8 +1,6 @@
 /**
  * @file graph.h
  * @author Edmundo Canedo Cervantes - A01645576
- * @brief 
- * @version 0.1
  * @date 2024-11-13
  * 
  */
@@ -12,6 +10,9 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <queue>
+#include <stack>
+#include <algorithm>
 using namespace std;
 
 /**
@@ -36,6 +37,11 @@ class Graph{
         void loadGraphMat(string, int, int);
         string printAdjList();
         string printAdjMat();
+        string print_visited(vector<int>);
+        string print_path(vector<vector<int>>&, int, int);
+        bool contains(vector<int>, int);
+        string breadthHelper(int, int, queue<int>&, vector<int>&, vector<vector<int>>&);
+        string depthHelper(int, int, stack<int>&, vector<int>&, vector<vector<int>>&);
         string BFS(int, int);
         string DFS(int, int);
 };
@@ -49,6 +55,11 @@ void Graph::start(int size){
     nodes=size;
     list=new vector<int>[size];
     mat=new int[size*size];
+    for(int i=0; i<nodes; i++){
+        for(int j=0; j<nodes; j++){
+            mat[i*nodes+j]=0;
+        }
+    }
 }
 
 /**
@@ -145,6 +156,7 @@ void Graph::loadGraphMat(string conns, int size, int x){
 string Graph::printAdjList(){
     stringstream aux;
     for(int i=0; i<nodes; i++){
+        sort(list[i].begin(), list[i].end());
         aux<<"vertex "<<i<<" :";
         for(int j=0; j<list[i].size(); j++){
             aux<<" "<<list[i][j];
@@ -170,12 +182,166 @@ string Graph::printAdjMat(){
     return aux.str();
 }
 
-string Graph::BFS(int p, int q){
-    return "";
+/**
+ * @brief Verifica si el nodo se encuentra en el vector
+ * de visitados. Tiene una complejidad temporal de O(n).
+ * 
+ * @param v El vector de visitados.
+ * @param node El nodo a verificar.
+ * @return TRUE - El nodo ya se visitó.
+ * 
+ * FALSE - El nodo aún no se ha visitado.
+ */
+bool Graph::contains(vector<int> v, int node){
+    for(auto i:v){
+        if(i==node) return true;
+    }
+    return false;
 }
 
-string Graph::DFS(int p, int q){
-    return "";
+/**
+ * @brief Regresa los nodos que se han visitado como string.
+ * Tiene una complejidad temporal de O(n).
+ * 
+ * @param v El vector de visitados.
+ * @return string - El string de las visitas.
+ */
+string Graph::print_visited(vector<int> v){
+    stringstream aux;
+    aux<<"visited: ";
+    for(auto i:v){
+        aux<<i<<" ";
+    }
+    return aux.str();
+}
+
+/**
+ * @brief Regresa el camino que se tomó para llegar a un nodo.
+ * Tiene una complejidad temporal de O(n).
+ * 
+ * @param path Vector con los caminos para llegar a los nodos.
+ * @param start Nodo inicial.
+ * @param goal Nodo final.
+ * @return string - El string del camino.
+ */
+string Graph::print_path(vector<vector<int>>& path, int start, int goal){
+    int node=path[goal][0];
+    stack<int> reverse;
+    reverse.push(goal);
+    stringstream aux;
+    aux<<"path:";
+    while(node!=start) {
+        reverse.push(node);
+        node=path[node][0];
+    }
+    reverse.push(start);
+    while(!reverse.empty()){
+        aux<<" "<<reverse.top();
+        reverse.pop();
+    }
+    return aux.str();
+}
+
+/**
+ * @brief Maneja la función recursiva para explorar los nodos
+ * conectados del nodo actual. Tiene una complejidad temporal
+ * de O(n+e), n siendo los nodos y e siendo las conexiones.
+ * 
+ * @param current El nodo actual.
+ * @param goal El nodo final.
+ * @param st Los próximos nodos a visitar.
+ * @param visited Los nodos visitados.
+ * @param paths Los caminos para llegar a los nodos.
+ * @return string - Los nodos visitados para llegar al final.
+ */
+string Graph::depthHelper(int current, int goal, stack<int> & st, vector<int> & visited, vector<vector<int>> & paths){
+    if(current==goal){
+        return print_visited(visited);
+    }else if(st.empty()){
+        return " node not found";
+    }else{
+        current=st.top();
+        st.pop();
+        visited.push_back(current);
+        for(int i=0; i<list[current].size(); i++){
+            if(!contains(visited, list[current][i])){
+                st.push(list[current][i]);
+                paths[list[current][i]][0]=current;
+            }
+        }
+        return depthHelper(current, goal, st, visited, paths);
+    }
+}
+
+/**
+ * @brief Busca un nodo por medio de una búsqueda
+ * en profundidad. Tiene una complejidad temporal
+ * de O(n+e), n siendo los nodos y e siendo las conexiones.
+ * 
+ * @param start El nodo inicial.
+ * @param goal El nodo final.
+ * @return string - Los nodos visitados junto con el camino 
+ * para llegar al nodo final.
+ */
+string Graph::DFS(int start, int goal){
+    stack<int> st;
+    vector<int> visited;
+    vector<vector<int>> paths(nodes, vector<int>(1,-1));
+    st.push(start);
+    string s=depthHelper(start, goal, st, visited, paths);
+    s=s+print_path(paths, start, goal);
+    return s;
+}
+
+/**
+ * @brief Maneja la función recursiva para explorar los nodos
+ * conectados del nodo actual. Tiene una complejidad temporal
+ * de O(n+e), n siendo los nodos y e siendo las conexiones.
+ * 
+ * @param current El nodo actual.
+ * @param goal El nodo final.
+ * @param qu Los próximos nodos a visitar.
+ * @param visited Los nodos visitados.
+ * @param paths Los caminos para llegar a los nodos.
+ * @return string - Los nodos visitados para llegar al final.
+ */
+string Graph::breadthHelper(int current, int goal, queue<int> & qu, vector<int> & visited, vector<vector<int>> & paths){
+    if(current==goal){
+        return print_visited(visited);
+    }else if(qu.empty()){
+        return " node not found";
+    }else{
+        current=qu.front();
+        qu.pop();
+        visited.push_back(current);
+        for(int i=0; i<list[current].size(); i++){
+            if(!contains(visited, list[current][i]) && paths[list[current][i]][0]==-1){
+                qu.push(list[current][i]);
+                paths[list[current][i]][0]=current;
+            }
+        }
+        return breadthHelper(current, goal, qu, visited, paths);
+    }
+}
+
+/**
+ * @brief Busca un nodo por medio de una búsqueda
+ * en amplitud. Tiene una complejidad temporal
+ * de O(n+e), n siendo los nodos y e siendo las conexiones.
+ * 
+ * @param start El nodo inicial.
+ * @param goal El nodo final.
+ * @return string - Los nodos visitados junto con el camino 
+ * para llegar al nodo final.
+ */
+string Graph::BFS(int start, int goal){
+    queue<int> qu;
+    vector<int> visited;
+    vector<vector<int>> paths(nodes, vector<int>(1,-1));
+    qu.push(start);
+    string s=breadthHelper(start, goal, qu, visited, paths);
+    s=s+print_path(paths, start, goal);
+    return s;
 }
 
 #endif
