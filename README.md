@@ -2,11 +2,7 @@
 
  - [BST](#bst)
      - [Visit](#visit)
- - [Splay Tree](#splay-tree)
-     - [Insert](#insert)
-     - [Delete](#delete)
-     - [Find](#find)
-
+       
 ## BST:
 
 ### Visit:
