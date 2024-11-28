@@ -1,9 +1,9 @@
 /**
- * @file dlist.h
- * @author Edmundo Canedo Cervantes - A01645576
- * @version 0.1
- * @date 2024-09-24
- */
+*
+* Edmundo Canedo Cervantes
+* A01645576
+*
+*/
 #ifndef DLIST_H
 #define DLIST_H
 #define Node Link<T>*

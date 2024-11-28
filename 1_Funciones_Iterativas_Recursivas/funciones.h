@@ -1,4 +1,4 @@
-/*
+/**
 *
 * Edmundo Canedo Cervantes
 * A01645576
@@ -14,8 +14,8 @@ class Funciones{
     int sumaDirecta(int);
 };
 
-/*
-* Permite realizar la suma de todos los números
+/**
+* @brief Permite realizar la suma de todos los números
 * antes, y contando también a un número n por
 * medio de un ciclo.
 *
@@ -30,8 +30,8 @@ int Funciones::sumaIterativa(int n){
     return c;
 } 
 
-/*
-* Permite realizar la suma de todos los números
+/**
+* @brief Permite realizar la suma de todos los números
 * antes, y contando también a un número n por
 * medio de una función recursiva.
 *
@@ -45,8 +45,8 @@ int Funciones::sumaRecursiva(int n){
     return n+sumaRecursiva(n-1);
 } 
 
-/*
-* Permite realizar la suma de todos los números
+/**
+* @brief Permite realizar la suma de todos los números
 * antes, y contando también a un número n por
 * medio de una fórmula.
 *

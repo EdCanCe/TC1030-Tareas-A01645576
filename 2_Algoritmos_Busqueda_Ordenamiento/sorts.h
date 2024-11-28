@@ -1,8 +1,20 @@
+/**
+*
+* Edmundo Canedo Cervantes
+* A01645576
+*
+*/
 #ifndef SORTS_H_
 #define SORTS_H_
 #include<iostream>
 #include<vector>
 
+/**
+ * @class Sorts
+ * 
+ * @brief Tiene todos los métodos necesarios
+ * para realizar diversos métodos de ordenamiento. 
+ */
 template <class T>
 class Sorts{
     private:
@@ -18,6 +30,12 @@ class Sorts{
         int busqBinaria(std::vector<T>&, T);
 };
 
+/**
+ * @brief Ordena un vector por medio de un Selection
+ * Sort. Tiene una complejidad temporal de O(n^2).
+ * 
+ * @param v El vector a ordenar.
+ */
 template <class T>
 void Sorts<T>::ordenaSeleccion(std::vector<T> &v){
     for(int i=0; i<v.size(); i++){
@@ -29,6 +47,12 @@ void Sorts<T>::ordenaSeleccion(std::vector<T> &v){
 	}
 }
 
+/**
+ * @brief Ordena un vector por medio de un Bubble
+ * Sort. Tiene una complejidad temporal de O(n^2).
+ * 
+ * @param v El vector a ordenar.
+ */
 template <class T>
 void Sorts<T>::ordenaBurbuja(std::vector<T> &v){
     for(int i=0; i<v.size(); i++){
@@ -38,12 +62,26 @@ void Sorts<T>::ordenaBurbuja(std::vector<T> &v){
 	}
 }
 
+/**
+ * @brief Ordena un vector por medio de un Merge
+ * Sort. Tiene una complejidad temporal de O(n log(n)).
+ * 
+ * @param v El vector a ordenar.
+ */
 template <class T>
 void Sorts<T>::ordenaMerge(std::vector<T> &v){
 	std::vector<T> copia(v.size());
 	divide(v, copia, 0, v.size()-1);
 }
 
+/**
+ * @brief Busca un elemento en un vector para obtener
+ * su índice. Tiene una complejidad temporal de O(n).
+ * 
+ * @param v El vector donde se encuentra el elemento.
+ * @param dato El elemento a buscar.
+ * @return int - El índice del elemento.
+ */
 template <class T>
 int Sorts<T>::busqSecuencial(std::vector<T> &v, T dato){
     for(int i=0; i<v.size(); i++){
@@ -52,6 +90,14 @@ int Sorts<T>::busqSecuencial(std::vector<T> &v, T dato){
     return -1;
 }
 
+/**
+ * @brief Busca un elemento en un vector para obtener
+ * su índice. Tiene una complejidad temporal de O(log(n)).
+ * 
+ * @param v El vector donde se encuentra el elemento.
+ * @param dato El elemento a buscar.
+ * @return int - El índice del elemento.
+ */
 template <class T>
 int Sorts<T>::busqBinaria(std::vector<T> &v, T dato){
     int low=0, high=v.size()-1, mid;
@@ -64,6 +110,14 @@ int Sorts<T>::busqBinaria(std::vector<T> &v, T dato){
     return -1;
 }
 
+/**
+ * @brief Intercambia 2 elementos en un vector.
+ * 
+ * @param v El vector donde se encuentran los
+ * elementos.
+ * @param i El índice del primer elemento.
+ * @param j El índice del segundo elemento.
+ */
 template <class T>
 void Sorts<T>::swap(std::vector<T> &v, int i, int j) {
 	T l = v[i];
@@ -71,6 +125,15 @@ void Sorts<T>::swap(std::vector<T> &v, int i, int j) {
 	v[j] = l;
 }
 
+/**
+ * @brief Pasa los elementos del vector auxiliar al
+ * original. Tiene una complejidad temporal de O(n).
+ * 
+ * @param A El vector original.
+ * @param B El vector auxiliar.
+ * @param low El índice de abajo.
+ * @param high El índice de arriba.
+ */
 template <class T>
 void Sorts<T>::copy(std::vector<T> &A, std::vector<T> &B, int low, int high){
     for(int i=low; i<=high; i++){
@@ -78,6 +141,16 @@ void Sorts<T>::copy(std::vector<T> &A, std::vector<T> &B, int low, int high){
 	}
 }
 
+/**
+ * @brief Combina 2 partes ordenadas en una sola.
+ * Tiene una complejidad temporal de O(n).
+ * 
+ * @param A El vector original.
+ * @param B El vector auxiliar.
+ * @param low El índice de abajo.
+ * @param mid La mitad entre los 2 índices.
+ * @param high El índice de arriba.
+ */
 template <class T>
 void Sorts<T>::arr(std::vector<T> &A, std::vector<T>&B, int low, int mid, int high){
     int i=low, j=mid+1, l=low;
@@ -102,6 +175,18 @@ void Sorts<T>::arr(std::vector<T> &A, std::vector<T>&B, int low, int mid, int hi
 	}
 }
 
+/**
+ * @brief Realiza la parte recursiva del algoritmo.
+ * Divide el arreglo en mitades hasta que sea solo un
+ * elemento; luego junta dichas mitades y las copia
+ * al vector original. Tiene una complejidad temporal
+ * de O(n log n).
+ * 
+ * @param A El vector original.
+ * @param B El vector auxiliar.
+ * @param low El índice de abajo.
+ * @param high El índice de arriba.
+ */
 template <class T>
 void Sorts<T>::divide(std::vector<T> &A, std::vector<T> &B, int low, int high){
     if(high-low<1){
