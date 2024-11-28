@@ -28,7 +28,7 @@ class TreeNode{
         void ancestors(std::stringstream&, T);
         int level(T);
 
-	    void preorder(std::stringstream&) const;
+        void preorder(std::stringstream&) const;
         void inorder(std::stringstream&) const;
         void postorder(std::stringstream&) const;
 
@@ -41,10 +41,10 @@ class TreeNode{
  * @param val Valor del nodo.
  */
 template <class T>
-TreeNode<T>::TreeNode(T val) {
-	value=val;
-	left=0;
-	right=0;
+TreeNode<T>::TreeNode(T val){
+    value=val;
+    left=0;
+    right=0;
 }
 
 /**
@@ -55,10 +55,10 @@ TreeNode<T>::TreeNode(T val) {
  * @param ri Hijo derecho.
  */
 template <class T>
-TreeNode<T>::TreeNode(T val, TreeNode<T>* le, TreeNode<T>* ri) {
-	value=val;
-	left=le;
-	right=ri;
+TreeNode<T>::TreeNode(T val, TreeNode<T>* le, TreeNode<T>* ri){
+    value=val;
+    left=le;
+    right=ri;
 }
 
 /**
@@ -70,14 +70,14 @@ TreeNode<T>::TreeNode(T val, TreeNode<T>* le, TreeNode<T>* ri) {
  * @param val - El valor a añadir.
  */
 template <class T>
-void TreeNode<T>::add(T val) { 
-	if(val > value){
-		if(right!=0) right->add(val);
-		else right=new TreeNode(val);
-	}else{
-		if(left!=0) left->add(val);
-		else left=new TreeNode(val);
-	}
+void TreeNode<T>::add(T val){ 
+    if(val > value){
+        if(right!=0) right->add(val);
+        else right=new TreeNode(val);
+    }else{
+        if(left!=0) left->add(val);
+        else left=new TreeNode(val);
+    }
 }
 
 /**
@@ -88,9 +88,9 @@ void TreeNode<T>::add(T val) {
  * @return int - La altura del nodo.
  */
 template <class T>
-int TreeNode<T>::height() {
+int TreeNode<T>::height(){
     int aux=1;
-	if(left!=0) aux=std::max(aux, left->height()+1); 
+    if(left!=0) aux=std::max(aux, left->height()+1); 
     if(right!=0) aux=std::max(aux, right->height()+1); 
     return aux;
 }
@@ -106,8 +106,8 @@ int TreeNode<T>::height() {
  */
 template <class T>
 void TreeNode<T>::ancestors(std::stringstream &aux, T x){
-	aux << value;
-	if(x>value && right!=0 && right->value!=x){
+    aux<<value;
+    if(x>value && right!=0 && right->value!=x){
         aux<<" ";
         right->ancestors(aux, x);
     }
@@ -133,7 +133,7 @@ void TreeNode<T>::ancestors(std::stringstream &aux, T x){
 template <class T>
 int TreeNode<T>::level(T x){
     if(value==x) return 1;
-	if(x>value){
+    if(x>value){
         if(right!=0){
             return right->level(x)+1;
         }
@@ -155,16 +155,16 @@ int TreeNode<T>::level(T x){
  * @param aux Donde se guarda el recorrido.
  */
 template <class T>
-void TreeNode<T>::preorder(std::stringstream &aux) const { //Complejidad temporal: O(n) - Revisa todo
-	aux << value;
-	if (left != 0) {
-		aux << " ";
-		left->preorder(aux);
-	}
-	if (right != 0) {
-		aux << " ";
-		right->preorder(aux);
-	}
+void TreeNode<T>::preorder(std::stringstream &aux)const{
+    aux<<value;
+    if(left != 0){
+        aux<<" ";
+        left->preorder(aux);
+    }
+    if(right != 0){
+        aux<<" ";
+        right->preorder(aux);
+    }
 }
 
 /**
@@ -176,17 +176,14 @@ void TreeNode<T>::preorder(std::stringstream &aux) const { //Complejidad tempora
  * @param aux Donde se guarda el recorrido.
  */
 template <class T>
-void TreeNode<T>::inorder(std::stringstream &aux) const { //Complejidad temporal: O(n) - Revisa todo
-	if (left != 0) {
-		left->inorder(aux);
-	}
-	if (aux.tellp() != 1) {
-		aux << " ";
-	}
-	aux << value;
-	if (right != 0) {
-		right->inorder(aux);
-	}
+void TreeNode<T>::inorder(std::stringstream &aux)const{
+    if(left != 0){
+        left->inorder(aux);
+    }
+    aux<<" "<<value;
+    if(right != 0){
+        right->inorder(aux);
+    }
 }
 
 /**
@@ -198,17 +195,17 @@ void TreeNode<T>::inorder(std::stringstream &aux) const { //Complejidad temporal
  * @param aux Donde se guarda el recorrido.
  */
 template <class T>
-void TreeNode<T>::postorder(std::stringstream &aux) const { //Complejidad temporal: O(n) - Revisa todo
-	if (left != 0) {
-		left->postorder(aux);
-	}
-	if (right != 0) {
-		right->postorder(aux);
-	}
-    if (aux.tellp() != 1) {
-		aux << " ";
-	}
-	aux << value;
+void TreeNode<T>::postorder(std::stringstream &aux)const{
+    if(left != 0){
+        left->postorder(aux);
+    }
+    if(right != 0){
+        right->postorder(aux);
+    }
+    if(aux.tellp() != 1){
+        aux<<" ";
+    }
+    aux<<value;
 }
 
 /**
@@ -229,7 +226,7 @@ class BST{
         std::string ancestors(T);
         int whatlevelamI(T);
 
-	    std::string preorder() const;
+        std::string preorder() const;
         std::string inorder() const;
         std::string postorder() const;
 };
@@ -260,9 +257,9 @@ bool BST<T>::empty() const{
  * @param val - El valor a añadir.
  */
 template<class T>
-void BST<T>::add(T x) {
-	if(empty()) root=new TreeNode(x);
-	else root->add(x);
+void BST<T>::add(T x){
+    if(empty()) root=new TreeNode(x);
+    else root->add(x);
 }
 
 /**
@@ -274,7 +271,7 @@ void BST<T>::add(T x) {
  * string.
  */
 template<class T>
-std::string BST<T>::visit(){ //Complejidad temporal: O(n) - Si fuera degenerado
+std::string BST<T>::visit(){
     std::string pre=preorder(), in=inorder(), pos=postorder();
     std::stringstream aux;
     aux<<pre<<"\n"<<in<<"\n"<<pos<<"\n"<<pre;
@@ -289,7 +286,7 @@ std::string BST<T>::visit(){ //Complejidad temporal: O(n) - Si fuera degenerado
  * @return int - La altura del árbol.
  */
 template<class T>
-int BST<T>::height(){ //Complejidad temporal: O(n) - Revisa todo
+int BST<T>::height(){
     if(!empty()){
         return root->height();
     }
@@ -305,15 +302,15 @@ int BST<T>::height(){ //Complejidad temporal: O(n) - Revisa todo
  * @param x El valor a buscar.
  */
 template<class T>
-std::string BST<T>::ancestors(T x){ //Complejidad temporal: O(n) - Si fuera degenerado
+std::string BST<T>::ancestors(T x){
     std::stringstream aux;
 
-	aux << "[";
-	if (!empty()) {
-		root->ancestors(aux, x);
-	}
-	aux << "]";
-	return aux.str();
+    aux<<"[";
+    if(!empty()){
+        root->ancestors(aux, x);
+    }
+    aux<<"]";
+    return aux.str();
 }
 
 /**
@@ -326,7 +323,7 @@ std::string BST<T>::ancestors(T x){ //Complejidad temporal: O(n) - Si fuera dege
  * @return int - El nivel del nodo.
  */
 template<class T>
-int BST<T>::whatlevelamI(T x){ //Complejidad temporal: O(n) - Si fuera degenerado
+int BST<T>::whatlevelamI(T x){
     if(!empty()){
         return root->level(x);
     }
@@ -338,15 +335,15 @@ int BST<T>::whatlevelamI(T x){ //Complejidad temporal: O(n) - Si fuera degenerad
  * Tiene una complejidad temporal de O(n).
  */
 template <class T>
-std::string BST<T>::preorder()const{ //Complejidad temporal: O(n) - Revisa todo
-	std::stringstream aux;
+std::string BST<T>::preorder()const{
+    std::stringstream aux;
 
-	aux << "[";
-	if (!empty()) {
-		root->preorder(aux);
-	}
-	aux << "]";
-	return aux.str();
+    aux<<"[";
+    if(!empty()){
+        root->preorder(aux);
+    }
+    aux<<"]";
+    return aux.str();
 }
 
 /**
@@ -354,15 +351,18 @@ std::string BST<T>::preorder()const{ //Complejidad temporal: O(n) - Revisa todo
  * Tiene una complejidad temporal de O(n).
  */
 template <class T>
-std::string BST<T>::inorder()const{ //Complejidad temporal: O(n) - Revisa todo
-	std::stringstream aux;
+std::string BST<T>::inorder()const{
+    std::stringstream aux, aux2;
 
-	aux << "[";
-	if (!empty()) {
-		root->inorder(aux);
-	}
-	aux << "]";
-	return aux.str();
+    aux<<"[";
+    if(!empty()){
+        root->inorder(aux2);
+        std::string aux3=aux2.str();
+        aux3.erase(0,1);
+        aux<<aux3;
+    }
+    aux<<"]";
+    return aux.str();
 }
 
 /**
@@ -370,15 +370,15 @@ std::string BST<T>::inorder()const{ //Complejidad temporal: O(n) - Revisa todo
  * Tiene una complejidad temporal de O(n).
  */
 template <class T>
-std::string BST<T>::postorder()const{ //Complejidad temporal: O(n) - Revisa todo
-	std::stringstream aux;
+std::string BST<T>::postorder()const{
+    std::stringstream aux;
 
-	aux << "[";
-	if (!empty()) {
-		root->postorder(aux);
-	}
-	aux << "]";
-	return aux.str();
+    aux<<"[";
+    if(!empty()){
+        root->postorder(aux);
+    }
+    aux<<"]";
+    return aux.str();
 }
 
 #endif
